@@ -1,16 +1,20 @@
-# Python (Ultimate) MasterMind #
+# Qt 5 - Topaz Thirty-One #
 
 ----------
 
-This version of MasterMind was written utilizing the [Python](https://www.python.org/ "https://www.python.org/") language. Originally, this was a Python 2.7 program but now utilizes Python 3.5.
+This implementation of the card game [Thirty-One](http://www.bicyclecards.com/how-to-play/thirty-one/ "http://www.bicyclecards.com/how-to-play/thirty-one/") was written in C++ utilizing the [Qt](https://www.qt.io/ "https://www.qt.io/") framework.
 
-To launch MasterMind, use this command:
+In this version of Thirty-One, you play against three computer based opponents. The game is fast-paced and your opponents are aggressive in their play.  This is a fun game to play, whether computer based or with actual cards and friends.  I hope you enjoy it!  
 
-    python3.exe mastermind.py
+**Warning:** The stakes are quite high in this game with valuable gems and gold coins as tokens.  
 
-![window view](https://github.com/ROpsal/python-mastermind/blob/master/images/window.png)
+The programs original purpose was as a demonstration program for a CS3350 Event-Driven Programming class at Bemidji State University. Qt proved to be a solid choice for demonstrating event-driven programming.
+
+The current version utilizes Qt 5.7.1 and C++ from Visual Studio 2015. The code has changed little since it was created with Qt 4 in 2009.
+
+![window view](https://github.com/ROpsal/qt-topaz31/blob/master/images/window.png)
 
 ----------
 ## Acknowledgment ##
 
-The graphical version of Hangman utilizes the ```graphics.py``` library by John Zelle.  This file and its documentation are available at Zelle's [Python Programming: An Introduction to Computer Science](http://mcsp.wartburg.edu/zelle/python/ "http://mcsp.wartburg.edu/zelle/python/") web page.
+The scalable vector graphics playing cards are from David Bellot. These are beautifully implemented and are available from his [SVG-Cards](http://svg-cards.sourceforge.net/ "http://svg-cards.sourceforge.net/") web page.
