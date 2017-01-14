@@ -8,7 +8,7 @@ In this version of Thirty-One, you play against three computer based opponents. 
 
 **Warning:** The stakes are quite high in this game with valuable gems and gold coins as tokens.  
 
-The programs original purpose was as a demonstration program for a CS3350 Event-Driven Programming class at Bemidji State University. Qt proved to be a solid choice for demonstrating event-driven programming.
+The programs' original purpose was as a demonstration for the CS3350 Event-Driven Programming class at Bemidji State University. Qt proved to be a solid choice for demonstrating event-driven programming.
 
 The current version utilizes Qt 5.7.1 and C++ from Visual Studio 2015. The code has changed little since it was created with Qt 4 in 2009.
 
