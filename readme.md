@@ -12,7 +12,7 @@ The programs original purpose was as a demonstration program for a CS3350 Event-
 
 The current version utilizes Qt 5.7.1 and C++ from Visual Studio 2015. The code has changed little since it was created with Qt 4 in 2009.
 
-![window view](https://github.com/ROpsal/qt-topaz31/blob/master/images/window.png)
+![window view](https://github.com/ROpsal/qt-topaz31/blob/master/Images/window.png)
 
 ----------
 ## Acknowledgment ##
