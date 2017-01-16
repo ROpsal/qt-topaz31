@@ -1,6 +1,6 @@
 ///
 //    Author: Richard Opsal
-// 
+//
 //   Purpose: Implementation of regions for the "31" board.
 //            CS3350 demonstration program.
 //
@@ -14,7 +14,7 @@
 
 ///
 //  C / C++ / STL includes.
-/// 
+///
 
 #include <cstdlib>
 #include <algorithm>
@@ -22,7 +22,7 @@
 
 ///
 //  Qt includes.
-/// 
+///
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
@@ -30,6 +30,7 @@
 #include <QPixmap>
 #include <QList>
 #include <QListIterator>
+#include <QStack>
 #include <QTimer>
 
 #include <QBrush>
@@ -44,11 +45,11 @@
 #include "Card.h"
 #include "CardDeck.h"
 #include "Players.h"
- 
+
 
 ///
 // Constructor Player :
-/// 
+///
 
 Player:: Player(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * pparentIn)
 
@@ -67,7 +68,7 @@ Player:: Player(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * p
           brushOutline ( QColor("#1A237E") )                            // Indigo 900
 
     {
-    static const char * ATOKENS[] = 
+    static const char * ATOKENS[] =
         {
         ":/images/gcoin1.png",
         ":/images/gcoin2.png",
@@ -98,7 +99,7 @@ Player:: Player(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * p
 
 ///
 // Destructor Player :
-/// 
+///
 
 Player:: ~Player()
     {
@@ -108,9 +109,9 @@ Player:: ~Player()
 
 ///
 //  Routine Player:: appendCard() :
-// 
+//
 //      Add a card to the player's pile.
-/// 
+///
 
 void Player:: appendCard(Card * pcard)
     {
@@ -122,9 +123,9 @@ void Player:: appendCard(Card * pcard)
 
 ///
 //  Routine Player:: removeCard() :
-// 
+//
 //      Removed cards go to Dealer's discard pile.
-/// 
+///
 
 void Player:: removeCard(Card * pcard)
     {
@@ -137,9 +138,9 @@ void Player:: removeCard(Card * pcard)
 
 ///
 //  Routine Player:: initializeTokens() :
-// 
+//
 //      Shuffles and places tokens in region.
-/// 
+///
 
 void Player:: initializeTokens(unsigned clives)
     {
@@ -189,9 +190,9 @@ void Player:: initializeTokens(unsigned clives)
 
 ///
 //  Routine Player:: removeAToken() :
-// 
+//
 //      Hide another token.  If in 'on-your-honour' state, then clear.
-/// 
+///
 
 void Player:: removeAToken()
     {
@@ -219,7 +220,7 @@ void Player:: removeAToken()
 
 ///
 //  Function Player:: isPlayerActive() :
-// 
+//
 //      Return the 'on-your-honour' flag.  Either tokens still visible or
 //      really in  'on-your-honour' state.
 ///
@@ -232,7 +233,7 @@ bool Player:: isPlayerActive()
 
 ///
 //  Routine Player:: doThirtyOneCheck() :
-/// 
+///
 
 void Player:: doThirtyOneCheck()
     {
@@ -243,7 +244,7 @@ void Player:: doThirtyOneCheck()
 
 ///
 //  Routine Player:: showPlayerActive() :
-/// 
+///
 
 void Player:: showPlayerActive ( bool fShowActive )
     {
@@ -255,12 +256,12 @@ void Player:: showPlayerActive ( bool fShowActive )
 
 ///
 //  Routine Player:: showPlayerKnocked() :
-/// 
+///
 
 void Player:: showPlayerKnocked( bool fShowKnocked )
     {
     (fShowKnocked)
-        ? QGraphicsRectItem::setPen( QPen(brushKnock  , cpelsKnock ) ) 
+        ? QGraphicsRectItem::setPen( QPen(brushKnock  , cpelsKnock ) )
         : QGraphicsRectItem::setPen( QPen(brushOutline, cpelsNormal) ) ;
 
     if (fShowKnocked)
@@ -270,7 +271,7 @@ void Player:: showPlayerKnocked( bool fShowKnocked )
 
 ///
 //  Routine Player:: showPlayerLost() :
-/// 
+///
 
 void Player:: showPlayerLost()
     {
@@ -281,7 +282,7 @@ void Player:: showPlayerLost()
 
 ///
 //  Routine Player:: showPlayerWon() :
-/// 
+///
 
 void Player:: showPlayerWon()
     {
@@ -297,7 +298,7 @@ void Player:: showPlayerWon()
 
 ///
 // Constructor NpcPlayer :
-/// 
+///
 
 NpcPlayer:: NpcPlayer(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * pparentIn)
 
@@ -310,7 +311,7 @@ NpcPlayer:: NpcPlayer(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsIt
 
 ///
 // Destructor NpcPlayer :
-/// 
+///
 
 NpcPlayer:: ~NpcPlayer()
     {
@@ -319,9 +320,9 @@ NpcPlayer:: ~NpcPlayer()
 
 ///
 //  Routine NpcPlayer:: appendCard() :
-// 
+//
 //      Add a card to the player's pile.
-/// 
+///
 
 void NpcPlayer:: appendCard(Card * pcard)
     {
@@ -350,7 +351,7 @@ void NpcPlayer:: appendCard(Card * pcard)
 
 ///
 //  Routine NpcPlayer:: removeCard() :
-/// 
+///
 
 void NpcPlayer:: removeCard(Card * pcard)
     {
@@ -393,11 +394,11 @@ void NpcPlayer:: setCardsFaceUp(bool fShowFace)
 
 ///
 //  Slot Routine NpcPlayer:: doPlayerTurn() :
-/// 
+///
 
 void NpcPlayer:: doPlayerTurn
 
-        ( 
+        (
         Player *        pplayerIn,  // IN - Which player?
         bool        fKnockRoundIn,  // IN - Are we in a knock round?
         unsigned          roundIn,  // IN - Which round of play?
@@ -430,7 +431,7 @@ void NpcPlayer:: doPlayerTurn
             scoreTest += roundIn * ((rand() % 2)+1) ;
             scoreTest -= 4 - playLevelIn ;
             if (scoreHand >= scoreTest)
-                {    
+                {
                 fKnocked = true ;
                 turnaction = Player::Knock ;
                 Player::showPlayerKnocked() ;
@@ -438,7 +439,7 @@ void NpcPlayer:: doPlayerTurn
             }
 
         // If knock round, or didn't knock, maximize our choices.
-        if (fKnockRoundIn || !fKnocked) 
+        if (fKnockRoundIn || !fKnocked)
             {
             if (scoreDiscard > (scoreHand+3))
                 {
@@ -469,7 +470,7 @@ void NpcPlayer:: doPlayerTurn
 
 ///
 //  Slot Routine NpcPlayer:: doRoundStarting() :
-/// 
+///
 
 void NpcPlayer:: doRoundStarting()
     {
@@ -490,7 +491,7 @@ void NpcPlayer:: doRoundStarting()
 
 ///
 //  Slot Routine NpcPlayer:: doRoundCompleted() :
-/// 
+///
 
 void NpcPlayer:: doRoundCompleted()
     {
@@ -503,7 +504,7 @@ void NpcPlayer:: doRoundCompleted()
 
 ///
 //  Slot Routine NpcPlayer:: doGameStarting() :
-/// 
+///
 
 void NpcPlayer:: doGameStarting(unsigned clives)
     {
@@ -513,7 +514,7 @@ void NpcPlayer:: doGameStarting(unsigned clives)
 
 ///
 //  Slot Routine NpcPlayer:: doGameCompleted() :
-/// 
+///
 
 void NpcPlayer:: doGameCompleted(Player * pplayer)
     {
@@ -524,16 +525,16 @@ void NpcPlayer:: doGameCompleted(Player * pplayer)
 
 ///
 //  Slot Routine NpcPlayer:: doPlayerDelay() :
-// 
+//
 //      This routine catches timer single shot action.
 //      Used to slow down game play.
-/// 
+///
 
 void NpcPlayer:: doPlayerDelay()
     {
     // Change color to inactive.
     (Knock == turnaction)
-        ? Player::showPlayerKnocked() 
+        ? Player::showPlayerKnocked()
         : Player::showPlayerActive( false ) ;
 
     // Signal we've completed our play.  Go on to next player.
@@ -548,7 +549,7 @@ void NpcPlayer:: doPlayerDelay()
 
 ///
 // Constructor HmnPlayer :
-/// 
+///
 
 HmnPlayer:: HmnPlayer(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * pparentIn)
 
@@ -561,7 +562,7 @@ HmnPlayer:: HmnPlayer(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsIt
 
 ///
 // Destructor HmnPlayer :
-/// 
+///
 
 HmnPlayer:: ~HmnPlayer()
     {
@@ -570,9 +571,9 @@ HmnPlayer:: ~HmnPlayer()
 
 ///
 //  Routine HmnPlayer:: appendCard() :
-// 
+//
 //      Add a card to the player's pile.
-/// 
+///
 
 void HmnPlayer:: appendCard(Card * pcard)
     {
@@ -600,7 +601,7 @@ void HmnPlayer:: appendCard(Card * pcard)
 
 ///
 //  Routine HmnPlayer:: removeCard() :
-/// 
+///
 
 void HmnPlayer:: removeCard(Card * pcard)
     {
@@ -631,11 +632,11 @@ void HmnPlayer:: removeCard(Card * pcard)
 
 ///
 //  Slot Routine HmnPlayer:: doPlayerTurn() :
-/// 
+///
 
 void HmnPlayer:: doPlayerTurn
 
-        ( 
+        (
         Player *        pplayerIn,  // IN - Which player?
         bool        fKnockRoundIn,  // IN - Are we in a knock round?
         unsigned          roundIn,  // IN - Which round of play?         Ignored!
@@ -658,7 +659,7 @@ void HmnPlayer:: doPlayerTurn
         {
         // Setup dealer cards for clicking.
         wireDealer() ;
-    
+
         // Change color to active.
         Player::showPlayerActive() ;
         }
@@ -667,7 +668,7 @@ void HmnPlayer:: doPlayerTurn
 
 ///
 //  Slot Routine HmnPlayer:: doRoundStarting() :
-/// 
+///
 
 void HmnPlayer:: doRoundStarting()
     {
@@ -688,7 +689,7 @@ void HmnPlayer:: doRoundStarting()
 
 ///
 //  Slot Routine HmnPlayer:: doRoundCompleted() :
-/// 
+///
 
 void HmnPlayer:: doRoundCompleted()
     {
@@ -698,7 +699,7 @@ void HmnPlayer:: doRoundCompleted()
 
 ///
 //  Slot Routine HmnPlayer:: doGameStarting() :
-/// 
+///
 
 void HmnPlayer:: doGameStarting(unsigned clives)
     {
@@ -708,7 +709,7 @@ void HmnPlayer:: doGameStarting(unsigned clives)
 
 ///
 //  Slot Routine HmnPlayer:: doGameCompleted() :
-/// 
+///
 
 void HmnPlayer:: doGameCompleted(Player * pplayer)
     {
@@ -783,7 +784,7 @@ void HmnPlayer:: doDrawFromDeck()
 
 ///
 //  Slot Routine HmnPlayer:: doDiscardFromHand() :
-/// 
+///
 
 void HmnPlayer:: doDiscardFromHand(Card * pcard)
     {
@@ -804,7 +805,7 @@ void HmnPlayer:: doDiscardFromHand(Card * pcard)
 
 ///
 //  Routine HmnPlayer:: wireMyCards() :
-/// 
+///
 
 void HmnPlayer:: wireMyCards()
     {
@@ -815,7 +816,7 @@ void HmnPlayer:: wireMyCards()
 
 ///
 //  Routine HmnPlayer:: wireMyCards() :
-/// 
+///
 
 void HmnPlayer:: unwireMyCards()
     {
@@ -826,7 +827,7 @@ void HmnPlayer:: unwireMyCards()
 
 ///
 //  Routine HmnPlayer:: wireDealer() :
-// 
+//
 //      Signal / slot wiring for top cards from deal and discard decks.
 ///
 
@@ -844,7 +845,7 @@ void HmnPlayer:: wireDealer()
 
 ///
 //  Routine HmnPlayer:: unwireDealer() :
-// 
+//
 //      Signal / slot wiring for top cards from deal and discard decks.
 ///
 
@@ -863,7 +864,7 @@ void HmnPlayer:: unwireDealer()
 
 ///
 // Constructor Dealer :
-/// 
+///
 
 Dealer:: Dealer(QGraphicsItem * pparentIn)
 
@@ -881,7 +882,7 @@ Dealer:: Dealer(QGraphicsItem * pparentIn)
 
 ///
 // Destructor Dealer :
-/// 
+///
 
 Dealer:: ~Dealer()
     {
@@ -892,9 +893,9 @@ Dealer:: ~Dealer()
 
 ///
 //  Routine Dealer:: appendDrawCard() :
-// 
+//
 //      Add a card to the player's pile.
-/// 
+///
 
 void Dealer:: appendDrawCard(Card * pcard)
     {
@@ -919,7 +920,7 @@ void Dealer:: appendDrawCard(Card * pcard)
 
 ///
 //  Routine Dealer:: removeDrawCard() :
-/// 
+///
 
 void Dealer:: removeDrawCard(Card * pcard)
     {
@@ -936,18 +937,27 @@ void Dealer:: removeDrawCard(Card * pcard)
 
 ///
 //  Routine Dealer:: appendDiscard() :
-// 
+//
 //      Add a card to the player's pile.
-/// 
+//
+//      2017-01-15 : RBO : Display last four discard cards.
+///
 
 void Dealer:: appendDiscard(Card * pcard)
     {
-    // Save the card in draw deck.
-    rcdeckDiscard.appendCard(pcard) ;
-    pcard->setParentItem(this) ;
+    // Stack used to display last three cards.
+    QStack<Card*> cardStack ;
+    cardStack.push(pcard) ;
 
-    // We're the discard card, so always show.
-    pcard->setCardFaceUp(true) ;
+    // Add three more cards to stack.
+    for (unsigned times=3 ; times ; --times)
+        {
+        if (!rcdeckDiscard.isEmpty() )
+            {
+            cardStack.push(rcdeckDiscard.topCard()) ;
+            rcdeckDiscard.removeTopCard() ;
+            }
+        }
 
     // Parent rectangle details for placement calc.
     QRectF rectThis = Dealer:: boundingRect() ;
@@ -955,16 +965,33 @@ void Dealer:: appendDiscard(Card * pcard)
 
     // Position offset delta.
     unsigned delta = (rectThis.height() - rectCard.height()) ;
-    unsigned xoffset = rectThis.width() - rectCard.width() - (delta>>1) ;
+    unsigned xoffset = rectThis.width() / 2 - delta * 0.9 ;
 
-    // Position the card.
-    pcard->setPos(rectThis.x()+xoffset,rectThis.y()+(delta>>1)) ;
+    // Put cards back in discard pile.
+    while (!cardStack.isEmpty())
+        {
+        // Grab the top card.
+        Card * pcard = cardStack.pop() ;
+
+        // Save the card in draw deck.
+        rcdeckDiscard.appendCard(pcard) ;
+        pcard->setParentItem(this) ;
+
+        // We're in the discard pile, so show card.
+        pcard->setCardFaceUp(true) ;
+
+        // Position the card.
+        pcard->setPos(rectThis.x()+xoffset,rectThis.y()+(delta>>1)) ;
+
+        // Adjust xoffset for next card.
+        xoffset += delta * 0.9 ;
+        }
     }
 
 
 ///
 //  Routine Dealer:: removeDiscard() :
-/// 
+///
 
 void Dealer:: removeDiscard(Card * pcard)
     {
@@ -981,10 +1008,10 @@ void Dealer:: removeDiscard(Card * pcard)
 
 ///
 //  Routine Dealer:: topDrawCard() :
-// 
+//
 //      Grabs cards from discard pile if we run out of cards.
 //      Owner of cards remains the same!
-/// 
+///
 
 Card * Dealer:: topDrawCard()
     {
@@ -998,7 +1025,7 @@ Card * Dealer:: topDrawCard()
         // Just one card for discard pile.
         rcdeckDiscard.cardList.clear() ;
         appendDiscard( pcard ) ;
-    
+
         // Shuffle temporary deck and place in draw deck.
         cardDeck.shuffleTheDeck() ;
         foreach(Card * pcard, cardDeck.cardList)
@@ -1011,7 +1038,7 @@ Card * Dealer:: topDrawCard()
 
 ///
 //  Slot Routine Dealer:: doRoundStarting() :
-/// 
+///
 
 void Dealer:: doRoundStarting()
     {

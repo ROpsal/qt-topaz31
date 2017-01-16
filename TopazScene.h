@@ -1,6 +1,6 @@
 ///
 //    Author: Richard Opsal
-// 
+//
 //   Purpose: The "31" scene and its elements.
 //            CS3350 demonstration program.
 //
@@ -18,7 +18,7 @@
 
 ///
 //  Qt includes.
-/// 
+///
 
 #include <QGraphicsScene>
 
@@ -33,33 +33,33 @@ class NpcPlayer ;
 class HmnPlayer ;
 class Dealer ;
 class Button ;
- 
+
 
 ///
 //  Class TopazScene :
-// 
+//
 //      Collection of graphical items representing the game of "31".
 //      Game logic controls what is seen and interactions.
-/// 
+///
 
 class TopazScene : public QGraphicsScene
     {
     Q_OBJECT
-    
+
     public:
         TopazScene(quint8 cPlayersIn, QObject *parent = 0) ;
        ~TopazScene() ;
 
     public:
         static const unsigned SC_WIDTH  = 1600 ;    // SC = Screen
-        static const unsigned SC_HEIGHT = 1000 ;    
-        static const unsigned DR_WIDTH  =  420 ;    // DR = Dealer Region
+        static const unsigned SC_HEIGHT = 1000 ;
+        static const unsigned DR_WIDTH  =  526 ;    // DR = Dealer Region
         static const unsigned DR_HEIGHT =  280 ;
         static const unsigned CP_WIDTH  =  420 ;    // CP = Computer Player Region
         static const unsigned CP_HEIGHT =  280 ;
         static const unsigned HP_WIDTH  =  900 ;    // HP = Human Player Region
         static const unsigned HP_HEIGHT =  280 ;
-            
+
     public:
         void showStartButton( bool fShowStart=true ) ;
 
@@ -107,4 +107,4 @@ class TopazScene : public QGraphicsScene
         void initializeButtons() ;
     } ;
 
-#endif 
+#endif
