@@ -426,6 +426,8 @@ void TopazLogic:: doTheReckoning()
         foreach(Player * pplayer, playerList)
             if (CardDeck::C31SUM != pplayer->scoreThePlayer())
                 pplayer -> removeAToken() ;
+            else
+                pplayer -> showPlayerHas31() ;
     }
 
 

@@ -65,6 +65,8 @@ Player:: Player(Dealer & rdealerIn, QGraphicsScene & rsceneIn, QGraphicsItem * p
           brushLostOL  ( QColor("#4A148C") ),                           // Purple 900
           brushWinnerHL( QColor("#7986CB"),  Qt::Dense5Pattern ),       // Indigo 300
           brushWinnerOL( QColor("#F50057") ),                           // Pink A400
+          brushHas31HL ( QColor("#FFD54F"),  Qt::CrossPattern ),        // Amber 300
+          brushHas31OL ( QColor("#FF6F00") ),                           // Amber 900
           brushOutline ( QColor("#1A237E") )                            // Indigo 900
 
     {
@@ -289,6 +291,18 @@ void Player:: showPlayerWon()
     QGraphicsRectItem::setPen( QPen(brushWinnerOL, cpelsKnock+2 ) ) ;
     QGraphicsRectItem::setBrush( brushWinnerHL ) ;
     }
+
+
+///
+//  Routine Player:: showPlayerHas31() :
+///
+
+void Player:: showPlayerHas31()
+    {
+    QGraphicsRectItem::setPen( QPen(brushHas31OL, cpelsKnock+1 ) ) ;
+    QGraphicsRectItem::setBrush( brushHas31HL ) ;
+    }
+
 
 
 ///                                                                         ///

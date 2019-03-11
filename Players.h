@@ -96,6 +96,10 @@ class Player : public QObject, public QGraphicsRectItem
         void showPlayerLost() ;
         void showPlayerWon() ;
 
+    public:
+        // Case when player has CardDeck::C31SUM score.
+        void showPlayerHas31() ;
+
     protected:
         // Get cards from here.
         QGraphicsScene & rscene ;
@@ -121,6 +125,8 @@ class Player : public QObject, public QGraphicsRectItem
         QBrush  brushLostOL ;
         QBrush  brushWinnerHL ;
         QBrush  brushWinnerOL ;
+        QBrush  brushHas31HL ;
+        QBrush  brushHas31OL ;
         QBrush  brushNone ;
         QBrush  brushOutline ;
         static const unsigned cpelsKnock  = 12 ;
